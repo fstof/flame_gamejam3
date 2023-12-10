@@ -127,7 +127,7 @@ class GameOverView extends StatelessWidget {
                     icon: const Icon(Icons.refresh),
                   ),
                   spaceL,
-                  if (level < 9)
+                  if (level < 10)
                     IconButton(
                       onPressed: () {
                         Navigator.of(context)
