@@ -127,13 +127,14 @@ class GameOverView extends StatelessWidget {
                     icon: const Icon(Icons.refresh),
                   ),
                   spaceL,
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacement(GamePage.route(level + 1));
-                    },
-                    icon: const Icon(Icons.navigate_next),
-                  ),
+                  if (level < 9)
+                    IconButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacement(GamePage.route(level + 1));
+                      },
+                      icon: const Icon(Icons.navigate_next),
+                    ),
                 ],
               ),
               const Spacer(),
