@@ -19,19 +19,19 @@ mixin _$ScoringState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(Map<int, int> scores) loaded,
+    required TResult Function(Map<int, Map<int, bool>> scores) loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(Map<int, int> scores)? loaded,
+    TResult? Function(Map<int, Map<int, bool>> scores)? loaded,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(Map<int, int> scores)? loaded,
+    TResult Function(Map<int, Map<int, bool>> scores)? loaded,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,7 +113,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(Map<int, int> scores) loaded,
+    required TResult Function(Map<int, Map<int, bool>> scores) loaded,
   }) {
     return initial();
   }
@@ -122,7 +122,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(Map<int, int> scores)? loaded,
+    TResult? Function(Map<int, Map<int, bool>> scores)? loaded,
   }) {
     return initial?.call();
   }
@@ -131,7 +131,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(Map<int, int> scores)? loaded,
+    TResult Function(Map<int, Map<int, bool>> scores)? loaded,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -182,7 +182,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Map<int, int> scores});
+  $Res call({Map<int, Map<int, bool>> scores});
 }
 
 /// @nodoc
@@ -202,7 +202,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
       scores: null == scores
           ? _value._scores
           : scores // ignore: cast_nullable_to_non_nullable
-              as Map<int, int>,
+              as Map<int, Map<int, bool>>,
     ));
   }
 }
@@ -210,11 +210,12 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements Loaded {
-  const _$LoadedImpl({required final Map<int, int> scores}) : _scores = scores;
+  const _$LoadedImpl({required final Map<int, Map<int, bool>> scores})
+      : _scores = scores;
 
-  final Map<int, int> _scores;
+  final Map<int, Map<int, bool>> _scores;
   @override
-  Map<int, int> get scores {
+  Map<int, Map<int, bool>> get scores {
     if (_scores is EqualUnmodifiableMapView) return _scores;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_scores);
@@ -247,7 +248,7 @@ class _$LoadedImpl implements Loaded {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(Map<int, int> scores) loaded,
+    required TResult Function(Map<int, Map<int, bool>> scores) loaded,
   }) {
     return loaded(scores);
   }
@@ -256,7 +257,7 @@ class _$LoadedImpl implements Loaded {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(Map<int, int> scores)? loaded,
+    TResult? Function(Map<int, Map<int, bool>> scores)? loaded,
   }) {
     return loaded?.call(scores);
   }
@@ -265,7 +266,7 @@ class _$LoadedImpl implements Loaded {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(Map<int, int> scores)? loaded,
+    TResult Function(Map<int, Map<int, bool>> scores)? loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -307,9 +308,10 @@ class _$LoadedImpl implements Loaded {
 }
 
 abstract class Loaded implements ScoringState {
-  const factory Loaded({required final Map<int, int> scores}) = _$LoadedImpl;
+  const factory Loaded({required final Map<int, Map<int, bool>> scores}) =
+      _$LoadedImpl;
 
-  Map<int, int> get scores;
+  Map<int, Map<int, bool>> get scores;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;

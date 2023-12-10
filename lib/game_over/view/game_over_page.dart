@@ -1,7 +1,7 @@
-import 'package:flame_gamejam3/game/assets.dart';
-import 'package:flame_gamejam3/level_select/view/level_select_page.dart';
-import 'package:flame_gamejam3/scoring/cubit/scoring_cubit.dart';
-import 'package:flame_gamejam3/styles/styles.dart';
+import '../../game/assets.dart';
+import '../../level_select/view/level_select_page.dart';
+import '../../scoring/cubit/scoring_cubit.dart';
+import '../../styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,99 +49,170 @@ class GameOverView extends StatelessWidget {
         );
       },
       builder: (context, state) {
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(),
-              Text(
-                'Level $level',
-                style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-              ),
-              spaceL,
-              spaceL,
-              spaceL,
-              if (ending == 0)
-                Text(
-                  'You Lose!',
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                )
-              else ...[
-                Text(
-                  'You win!',
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                ),
-                spaceL,
-                Image.asset(
-                  'assets/images/${ending == 1 ? imgTrophyBroze : ending == 2 ? imgTrophySilver : ending == 3 ? imgTrophyGold : ''}',
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  height: MediaQuery.of(context).size.width * 0.25,
-                  fit: BoxFit.cover,
-                ),
-                spaceL,
-              ],
-              if (ending == 1)
-                Text(
-                  'But you can do better next time',
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                ),
-              if (ending == 2)
-                Text(
-                  'Almost. I know you can do better',
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                ),
-              if (ending == 3)
-                Text(
-                  'Good job. You got GOLD',
-                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                ),
-              const Spacer(),
-              Row(
+        return state.map(
+          initial: (initial) => const Placeholder(),
+          loaded: (loaded) {
+            return Center(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacement(LevelSelectPage.route());
-                    },
-                    icon: const Icon(Icons.eject),
+                  const Spacer(),
+                  Text(
+                    'Level $level',
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
                   ),
                   spaceL,
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacement(GamePage.route(level));
-                    },
-                    icon: const Icon(Icons.refresh),
-                  ),
                   spaceL,
-                  if (level < 10)
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushReplacement(GamePage.route(level + 1));
-                      },
-                      icon: const Icon(Icons.navigate_next),
+                  spaceL,
+                  if (ending == 0)
+                    Text(
+                      'You Lose!',
+                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                    )
+                  else ...[
+                    Text(
+                      'You win!',
+                      style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
                     ),
+                  ],
+                  spaceL,
+                  _buildTrophies(context, loaded),
+                  const Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushReplacement(LevelSelectPage.route());
+                        },
+                        icon: const Icon(Icons.eject),
+                      ),
+                      spaceL,
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushReplacement(GamePage.route(level));
+                        },
+                        icon: const Icon(Icons.refresh),
+                      ),
+                      spaceL,
+                      if (level < 10)
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushReplacement(GamePage.route(level + 1));
+                          },
+                          icon: const Icon(Icons.navigate_next),
+                        ),
+                    ],
+                  ),
+                  const Spacer(),
                 ],
               ),
-              const Spacer(),
-            ],
-          ),
+            );
+          },
         );
       },
+    );
+  }
+
+  Widget _buildTrophies(BuildContext context, Loaded loaded) {
+    var trophyCount = 0;
+    if (loaded.scores[level]?[1] ?? false) trophyCount++;
+    if (loaded.scores[level]?[2] ?? false) trophyCount++;
+    if (loaded.scores[level]?[3] ?? false) trophyCount++;
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (loaded.scores[level]?[1] ?? false)
+              Image.asset(
+                'assets/images/$imgTrophyBroze',
+                width: MediaQuery.of(context).size.width * 0.25,
+                height: MediaQuery.of(context).size.width * 0.25,
+                fit: BoxFit.cover,
+              ),
+            if (loaded.scores[level]?[2] ?? false)
+              Image.asset(
+                'assets/images/$imgTrophySilver',
+                width: MediaQuery.of(context).size.width * 0.25,
+                height: MediaQuery.of(context).size.width * 0.25,
+                fit: BoxFit.cover,
+              ),
+            if (loaded.scores[level]?[3] ?? false)
+              Image.asset(
+                'assets/images/$imgTrophyGold',
+                width: MediaQuery.of(context).size.width * 0.25,
+                height: MediaQuery.of(context).size.width * 0.25,
+                fit: BoxFit.cover,
+              ),
+          ],
+        ),
+        if (trophyCount == 0) ...[
+          Text(
+            '''You have no trophies!.''',
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+          ),
+          Text(
+            '''Try again and get them all!''',
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+          ),
+        ],
+        if (trophyCount == 1) ...[
+          Text(
+            '''You've got a trophy!''',
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+          ),
+          Text(
+            '''Only two more to go. Try again!''',
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+          ),
+        ],
+        if (trophyCount == 2) ...[
+          Text(
+            '''You've got 2 trophies. ''',
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+          ),
+          Text(
+            '''Don't forget the last one. You can do it!''',
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+          ),
+        ],
+        if (trophyCount == 3) ...[
+          Text(
+            '''You've got all the trophies!''',
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+          ),
+          Text(
+            '''Good job!''',
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+          ),
+        ],
+      ],
     );
   }
 }

@@ -40,17 +40,17 @@ class SnowmanBlock extends BodyComponent {
 
   @override
   Body createBody() {
-    renderBody = true;
+    renderBody = false;
     final shape = PolygonShape()
       ..setAsBox(
-        halfTileSize,
-        halfTileSize * 0.1,
+        halfTileSize * 0.4,
+        halfTileSize * 0.75,
         Vector2.zero(),
         0,
       );
 
     final bodyDef = BodyDef(
-      type: BodyType.static,
+      type: BodyType.dynamic,
       userData: this,
       position: initialPosition,
     );

@@ -12,11 +12,11 @@ class ScoringCubit extends Cubit<ScoringState> {
   ScoringCubit({required this.storage}) : super(const ScoringState.initial());
 
   void loadScores() {
-    final scores = <int, int>{};
+    final scores = <int, Map<int, bool>>{};
 
     for (var k = 0; k < 10; k++) {
       final level = k + 1;
-      scores[level] = storage.endingForLevel(level);
+      scores[level] = storage.endingsForLevel(level);
     }
 
     emit(ScoringState.loaded(scores: scores));
@@ -26,14 +26,14 @@ class ScoringCubit extends Cubit<ScoringState> {
     state.map(
       initial: (initial) {},
       loaded: (loaded) {
-        final scores = Map<int, int>.from(loaded.scores);
-        final currentScore = scores[level] ?? 0;
+        final scores = Map<int, Map<int, bool>>.from(loaded.scores);
+        final currentScore = scores[level] ?? {1: false, 2: false, 3: false};
 
-        if (ending > currentScore) {
-          storage.saveEnding(level, ending);
-          scores[level] = ending;
-          emit(ScoringState.loaded(scores: scores));
-        }
+        currentScore[ending] = true;
+        storage.saveEnding(level, ending);
+
+        scores[level] = currentScore;
+        emit(ScoringState.loaded(scores: scores));
       },
     );
   }

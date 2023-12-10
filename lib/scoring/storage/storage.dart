@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class Storage {
   static Storage? _i;
 
-  late Box<int> _scoresBox;
+  late Box<bool> _scoresBox;
   late Box<bool> _settingsBox;
 
   Storage._();
@@ -17,11 +17,14 @@ class Storage {
   }
 
   void saveEnding(int level, int ending) {
-    _scoresBox.put(level, ending);
+    _scoresBox.put('$level-$ending', true);
   }
 
-  int endingForLevel(int level) {
-    return _scoresBox.get(level) ?? 0;
+  Map<int, bool> endingsForLevel(int level) {
+    final one = _scoresBox.get('$level-1') ?? false;
+    final two = _scoresBox.get('$level-2') ?? false;
+    final three = _scoresBox.get('$level-3') ?? false;
+    return {1: one, 2: two, 3: three};
   }
 
   bool musicOn() {

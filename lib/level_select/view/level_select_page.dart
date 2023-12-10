@@ -46,7 +46,7 @@ class LevelSelectView extends StatelessWidget {
                       (e) => _buildMapTile(
                         context,
                         e + 1,
-                        loaded.scores[e + 1] ?? 0,
+                        loaded.scores[e + 1] ?? {1: false, 2: false, 3: false},
                       ),
                     )
                     .toList(),
@@ -58,7 +58,11 @@ class LevelSelectView extends StatelessWidget {
     );
   }
 
-  Widget _buildMapTile(BuildContext context, int level, int ending) {
+  Widget _buildMapTile(
+    BuildContext context,
+    int level,
+    Map<int, bool> endings,
+  ) {
     return Padding(
       padding: edgeAllM,
       child: SizedBox(
@@ -74,9 +78,26 @@ class LevelSelectView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Level $level'),
-                if (ending > 0)
-                  Image.asset(
-                    'assets/images/${ending == 1 ? imgTrophyBroze : ending == 2 ? imgTrophySilver : ending == 3 ? imgTrophyGold : ''}',
+                if (endings.isNotEmpty)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (endings[1] ?? false)
+                        Image.asset(
+                          'assets/images/$imgTrophyBroze',
+                          width: 32,
+                        ),
+                      if (endings[2] ?? false)
+                        Image.asset(
+                          'assets/images/$imgTrophySilver',
+                          width: 32,
+                        ),
+                      if (endings[3] ?? false)
+                        Image.asset(
+                          'assets/images/$imgTrophyGold',
+                          width: 32,
+                        ),
+                    ],
                   ),
               ],
             ),
