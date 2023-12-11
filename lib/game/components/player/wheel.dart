@@ -13,8 +13,8 @@ import '../platform/ice_block.dart';
 import 'car.dart';
 
 class Wheel extends BodyComponent<VeryGoodForgeGame> with ContactCallbacks {
-  static const _torque = 20.0;
-  static const _speed = 20.0;
+  static const _torque = 25.0;
+  static const _speed = 40.0;
 
   final Vector2 initialPosition;
   MouseJoint? mouseJoint;
@@ -93,7 +93,7 @@ class Wheel extends BodyComponent<VeryGoodForgeGame> with ContactCallbacks {
           WheelJointDef()
             ..initialize(car.body, body, body.position, Vector2(0, 1))
             ..dampingRatio = 0.0
-            ..frequencyHz = 20
+            ..frequencyHz = 10
             ..enableMotor = false
             ..motorSpeed = 0.0
             ..maxMotorTorque = _torque,
