@@ -9,7 +9,7 @@ environment:
 dependencies:
   audioplayers: ^5.2.1
   flame: ^1.12.0
-  flame_audio: ^2.1.4
+  flame_audio: ^2.1.6
   flame_bloc: ^1.10.6
   flame_forge2d: ^0.16.0+2
   flame_mini_sprite: ^0.0.1
